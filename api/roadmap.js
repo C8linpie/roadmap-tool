@@ -263,7 +263,17 @@ export default async function handler(req, res) {
       tools: [{ type: "web_search_20250305", name: "web_search" }],
     });
     const text = extractText(genData);
-    const cleaned = text.replace(/```json|```/g, "").trim();
+    const withoutFences = text.replace(/```json|```/g, "").trim();
+    // The model is asked to return only JSON, but occasionally adds a
+    // stray sentence before or after it (e.g. when web search comes up
+    // empty). Pull out just the outermost {...} object rather than
+    // assuming the whole response is valid JSON on its own.
+    const firstBrace = withoutFences.indexOf("{");
+    const lastBrace = withoutFences.lastIndexOf("}");
+    if (firstBrace === -1 || lastBrace === -1 || lastBrace < firstBrace) {
+      throw new Error("Could not find a JSON object in the model's response: " + withoutFences.slice(0, 200));
+    }
+    const cleaned = withoutFences.slice(firstBrace, lastBrace + 1);
     const parsed = JSON.parse(cleaned);
 
     // 3) Voice check — advisory only, logged server-side, never blocks the result
