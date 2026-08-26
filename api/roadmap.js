@@ -334,20 +334,28 @@ Next Step: ${parsed.nextStep}`;
       next_step: parsed.nextStep,
     };
 
-    fetch(ZAPIER_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(logData),
-    }).catch((err) => console.log("Zapier log failed:", err.message));
+    // Serverless functions can freeze/terminate the moment a response is
+    // sent — a "fire and forget" fetch started here is not guaranteed to
+    // finish. Await both logging calls (in parallel with each other) so
+    // they actually complete before we respond.
+    await Promise.allSettled([
+      fetch(ZAPIER_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(logData),
+      })
+        .then(() => console.log("Zapier log sent"))
+        .catch((err) => console.log("Zapier log failed:", err.message)),
 
-    fetch(GOOGLE_SHEETS_URL, {
-      method: "POST",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(logData),
-    })
-      .then((r) => r.text())
-      .then((t) => console.log("Sheet save response:", t))
-      .catch((err) => console.error("Sheet save failed:", err.message));
+      fetch(GOOGLE_SHEETS_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(logData),
+      })
+        .then((r) => r.text())
+        .then((t) => console.log("Sheet save response:", t))
+        .catch((err) => console.error("Sheet save failed:", err.message)),
+    ]);
 
     // 5) Return the roadmap to the browser
     res.status(200).json(parsed);
