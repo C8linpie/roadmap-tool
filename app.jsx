@@ -224,13 +224,9 @@ await navigator.clipboard.writeText(roadmapText());
 setCopied(true);
 setTimeout(() => setCopied(false), 2200);
 } catch (err) {
-// Clipboard permissions can fail in some browsers — fall back to
-// selecting the textarea so the person can still copy manually.
-const el = document.getElementById("roadmapTextarea");
-if (el) {
-el.focus();
-el.select();
-}
+// Clipboard permissions can fail in some browsers — fall back to a
+// simple prompt so the person can still copy manually.
+window.prompt("Copy your roadmap:", roadmapText());
 }
 };
 
@@ -630,13 +626,6 @@ Book your Website Strategy Roadmap Session →
 </button>
 <button style={styles.secondaryBtn} onClick={downloadPDF}>⬇ Download PDF</button>
 </div>
-<textarea
-id="roadmapTextarea"
-readOnly
-value={roadmapText()}
-style={styles.copyableText}
-/>
-<p style={styles.copyInstruction}>Or select the text above and copy it manually</p>
 </div>
 
 <button style={styles.ghostBtn} onClick={restart}>↺ Start again</button>
@@ -722,8 +711,6 @@ downloadBox: { textAlign: "center", borderTop: `1px solid ${LINE}`, marginTop: 4
 downloadBtn: { display: "block", background: INK, color: PAPER, border: "none", borderRadius: 999, padding: "14px 28px", fontSize: 13.5, letterSpacing: "0.02em", fontWeight: 600, margin: "0 auto" },
 saveRow: { display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", marginBottom: 20 },
 secondaryBtn: { display: "inline-flex", alignItems: "center", gap: 7, background: "white", border: `1.5px solid ${PINK}`, color: PINK, borderRadius: 999, padding: "11px 20px", fontSize: 13.5, fontWeight: 600, letterSpacing: "0.01em" },
-copyableText: { width: "100%", height: "260px", padding: "16px", fontSize: 13, lineHeight: "1.6", fontFamily: "monospace", border: `1px solid ${LINE}`, borderRadius: 8, resize: "vertical", backgroundColor: PAPER, color: INK },
-copyInstruction: { fontSize: 12, color: STONE, marginTop: 12, fontWeight: 500 },
 bookingLink: { display: "inline-block", background: INK, color: PAPER, borderRadius: 999, padding: "14px 28px", fontSize: 14, letterSpacing: "0.02em", fontWeight: 600, textDecoration: "none", marginTop: 20 },
 waysBox: { borderTop: `1px solid ${LINE}`, paddingTop: 26, marginBottom: 32 },
 waysGrid: { display: "grid", gridTemplateColumns: "1fr", gap: 18, marginTop: 18 },
