@@ -1,4 +1,4 @@
-// ─────────────────────────────────────────────────────────────
+// ──────────────────────────────────────────────────────────
 // Website Strategy Roadmap — server-side generation endpoint
 // Caitlin Pieters Studio
 //
@@ -59,7 +59,6 @@ const BANDS = [
 
 const GOOGLE_SHEETS_URL =
   "https://script.google.com/macros/s/AKfycbwVoS6EbhX_sugLNXqYyjrOGprJeTWipJrwH_17dCU4et7-UQCyiTiOmZsbKiuNiAI/exec";
-const ZAPIER_URL = "https://hooks.zapier.com/hooks/catch/8278206/4tf68kd/";
 
 function buildBandText(bandAnswers) {
   return BANDS.map((b) => {
@@ -336,26 +335,16 @@ Next Step: ${parsed.nextStep}`;
 
     // Serverless functions can freeze/terminate the moment a response is
     // sent — a "fire and forget" fetch started here is not guaranteed to
-    // finish. Await both logging calls (in parallel with each other) so
-    // they actually complete before we respond.
-    await Promise.allSettled([
-      fetch(ZAPIER_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(logData),
-      })
-        .then(() => console.log("Zapier log sent"))
-        .catch((err) => console.log("Zapier log failed:", err.message)),
-
-      fetch(GOOGLE_SHEETS_URL, {
-        method: "POST",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify(logData),
-      })
-        .then((r) => r.text())
-        .then((t) => console.log("Sheet save response:", t))
-        .catch((err) => console.error("Sheet save failed:", err.message)),
-    ]);
+    // finish. Await the logging call so it actually completes before we
+    // respond.
+    await fetch(GOOGLE_SHEETS_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(logData),
+    })
+      .then((r) => r.text())
+      .then((t) => console.log("Sheet save response:", t))
+      .catch((err) => console.error("Sheet save failed:", err.message));
 
     // 5) Return the roadmap to the browser
     res.status(200).json(parsed);
