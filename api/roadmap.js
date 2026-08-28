@@ -1,4 +1,4 @@
-// ──────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────
 // Website Strategy Roadmap — server-side generation endpoint
 // Caitlin Pieters Studio
 //
