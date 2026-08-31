@@ -14,7 +14,8 @@ const PINK = "#FA348C";
 const STONE = "#8C8578";
 const LINE = "#DFDACE";
 
-const BOOKING_URL = "https://www.caitlinpieters.com/booking-calendar/website-strategy-roadmap-session";
+const STRATEGY_URL = "https://www.caitlinpieters.com/booking-calendar/strategy-session";
+const DISCOVERY_URL = "https://www.caitlinpieters.com/booking-calendar/discovery-call";
 
 const CloudIcon = () => (
 <svg width="44" height="44" viewBox="0 0 48 48" fill="none">
@@ -610,13 +611,20 @@ What I'd <span style={styles.pinkItalic}>focus</span> on next.
 <p style={styles.oneThingText}>{roadmap.oneThing}</p>
 </div>
 
-<div style={styles.nextStepBox}>
-<div style={styles.priorityLabel}>NEXT STEP</div>
-<p style={{ ...styles.body, marginBottom: 20 }}>{roadmap.nextStep}</p>
-<a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" style={styles.bookingLink}>
-Book your Website Strategy Roadmap Session →
-</a>
-</div>
+  {React.createElement("div", {style: styles.nextStepBox},
+                       React.createElement("div", {style: styles.priorityLabel}, "WHAT NEXT?"),
+                       React.createElement("p", {style: {...styles.body, marginBottom: 20}}, "You've got some clarity from your roadmap. If you want my input on what to do next, there are two ways we can take it further."),
+                       React.createElement("div", {style: styles.optionBox},
+                                           React.createElement("div", {style: styles.optionTitle}, "Strategy Call"),
+                                           React.createElement("p", {style: styles.optionDesc}, "A focused, paid one-off session to work through your biggest priorities, decisions or ideas with me. You'll leave with clear direction and next steps you can implement yourself."),
+                                           React.createElement("a", {href: STRATEGY_URL, target: "_blank", rel: "noopener noreferrer", style: styles.optionLink}, "Book a Strategy Call →")
+                                           ),
+                       React.createElement("div", {style: styles.optionBox},
+                                           React.createElement("div", {style: styles.optionTitle}, "Discovery Call"),
+                                           React.createElement("p", {style: styles.optionDesc}, "A free call to explore what you're building, what kind of support would be useful, and whether one of my longer-term ways of working together is the right fit."),
+                                           React.createElement("a", {href: DISCOVERY_URL, target: "_blank", rel: "noopener noreferrer", style: styles.optionLink}, "Book a Discovery Call →")
+                                           )
+                       )}
 
 <div style={styles.downloadBox}>
 <div style={styles.priorityLabel}>SAVE YOUR ROADMAP</div>
@@ -706,6 +714,10 @@ oneThingBox: { borderTop: `1px solid ${LINE}`, paddingTop: 26, marginBottom: 32 
 oneThingText: { fontFamily: "'Fraunces', serif", fontStyle: "italic", fontSize: 20, lineHeight: 1.5, color: INK, fontWeight: 500 },
 
 nextStepBox: { borderTop: `1px solid ${LINE}`, paddingTop: 26, paddingBottom: 8 },
+  optionBox: { marginBottom: 24, paddingBottom: 24, borderBottom: `1px solid ${LINE}` },
+  optionTitle: { fontSize: 16, fontWeight: 600, color: INK, marginBottom: 12, fontFamily: "'Fraunces', serif" },
+  optionDesc: { fontSize: 14.5, lineHeight: 1.6, color: `${INK}aa`, marginBottom: 16 },
+  optionLink: { display: "inline-block", background: INK, color: PAPER, borderRadius: 999, padding: "12px 24px", fontSize: 14, fontWeight: 600, textDecoration: "none" },
 notesBox: { borderTop: `1px solid ${LINE}`, paddingTop: 26, marginBottom: 32 },
 downloadBox: { textAlign: "center", borderTop: `1px solid ${LINE}`, marginTop: 40, paddingTop: 32, marginBottom: 40 },
 downloadBtn: { display: "block", background: INK, color: PAPER, border: "none", borderRadius: 999, padding: "14px 28px", fontSize: 13.5, letterSpacing: "0.02em", fontWeight: 600, margin: "0 auto" },
