@@ -611,17 +611,6 @@ What I'd <span style={styles.pinkItalic}>focus</span> on next.
 <p style={styles.oneThingText}>{roadmap.oneThing}</p>
 </div>
 
-  {React.createElement("div", {style: styles.nextStepBox},
-                       React.createElement("div", {style: styles.priorityLabel}, "WHAT NEXT?"),
-                       React.createElement("p", {style: {...styles.body, marginBottom: 20}}, "You've taken a proper look at where your business is now and what deserves your attention next. If you'd like my input on any of what's come up, there are two ways we can take it further."),
-                  
-                       React.createElement("div", {style: styles.optionBox},
-                                           React.createElement("div", {style: styles.optionTitle}, "Discovery Call"),
-                                           React.createElement("p", {style: styles.optionDesc}, "A free call to explore what you're building, what kind of support would be most useful, and whether one of my longer-term ways of working together feels like the right fit."),
-                                           React.createElement("a", {href: DISCOVERY_URL, target: "_blank", rel: "noopener noreferrer", style: styles.optionLink}, "Book a Discovery Call →")
-                                           )
-                       )}
-
 <div style={styles.downloadBox}>
 <div style={styles.priorityLabel}>SAVE YOUR ROADMAP</div>
 <div style={styles.saveRow}>
